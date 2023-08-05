@@ -5,6 +5,7 @@ import userRoutes from "./routes/user.route";
 import taskRoutes from "./routes/task.route";
 import commentRoutes from "./routes/comment.route";
 import { authenticateUser } from "./middleware/authinticate.middleware";
+import log from "./logger/logger";
 const PORT = (config.PORT || 3333) as number;
 
 const app = express();
@@ -17,6 +18,8 @@ app.use(function (req, res, next) {
   res.header("Access-Control-Allow-Headers", "*");
   next();
 });
+
+log.info(config.DB_UR);
 
 app.use("/api", userRoutes);
 app.use("/api", taskRoutes);
