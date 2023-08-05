@@ -1,0 +1,30 @@
+version: '3.4'
+
+services:
+  mongoDB:
+    image: mongo:latest
+    ports:
+      - 27017:27017
+    volumes:
+      - mongo_data:/data/db
+
+  server:
+    build: ./server
+    container_name: node_server
+    depends_on:
+      - mongoDB
+    ports:
+      - 3333:3333
+    environment:
+      DB_URL: mongodb://mongoDB:27017
+    links:
+      - mongoDB
+  client:
+    build: ./client
+    container_name: client_React_container
+    ports:
+      - 3000:3000
+    command: npm start
+
+volumes:
+  mongo_data: {}
